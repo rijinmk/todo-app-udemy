@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:200,300,400" rel="stylesheet">
+  <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js" integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l" crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c" crossorigin="anonymous"></script>
+  <title>TO-LIST</title>
+  <link rel="stylesheet" href="style/css/main.css">
+</head>
+<body>
+  <div id="todo_container">
+    
+    <div id="todo_header">
+      <h2>TO DO LIST</h2>
+      <div><i class="fas fa-plus"></i></div>
+    </div>
+    
+    <input placeholder="Add a to-do element..." type="text">
+    
+    <ul>
+    </ul>
+    
+  </div>
+</body>
+<script src="script/jq.js"></script>
+<script>
+  function centerify(){
+    $('#todo_container').css('margin-top', - $('#todo_container').height() / 2 + 'px');
+  }
+  
+  centerify();
+  
+  function updateTodos(){
+    $('#todo_container ul li').on('click', function(){
+      $(this).toggleClass('todo_done'); 
+
+    });
+    
+    $('#todo_container ul li').on('mouseover',function(){
+      $(this).css('margin-left', '0px');
+    }); 
+    
+    $('#todo_container ul li').on('mouseout',function(){
+      $(this).css('margin-left', '-35px');
+    }); 
+    
+    $('#todo_container ul li > .delete').on('click', function(){
+      $(this).parent().slideUp(300, function(){
+        $(this).remove(); 
+        centerify();
+      });
+    });  
+  }
+  
+  updateTodos(); 
+  
+  $('#todo_container #todo_header > div').on('click', function(){
+    var text = $('#todo_container input[type=text]').val(); 
+    $('#todo_container ul').append(`<li><span class="delete"><i class="fas fa-trash"></i></span><span class="text">${text}</span></li>`);
+    $('#todo_container input[type=text]').val('');
+    updateTodos(); 
+    centerify();
+  });
+  
+  $('#todo_container input[type=text]').keypress(function(e){
+    if(e.keyCode === 13){
+      var text = $('#todo_container input[type=text]').val();
+      $('#todo_container ul').append(`<li><span class="delete"><i class="fas fa-trash"></i></span><span class="text">${text}</span></li>`);
+      $('#todo_container input[type=text]').val('');
+      updateTodos(); 
+      centerify();
+    }
+  });
+  
+</script>
+</html>
